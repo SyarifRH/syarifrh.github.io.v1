@@ -1,23 +1,25 @@
 <?php
-if (isset($_POST['submit'])) {
-    // Mengambil data dari formulir kontak
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $subject = $_POST['subject'];
-    $message = $_POST['message'];
+$name = htmlspecialchars($_POST['name']);
+$email = htmlspecialchars($_POST['email']);
+$subject = htmlspecialchars($_POST['subject']);
+$message = htmlspecialchars($_POST['message']);
 
-    // Menyiapkan pesan email
-    $to = 'sharif.ridho@gmail.com'; // Email tujuan
-    $subject = 'Pesan dari formulir kontak';
-    $message = "Nama: $name\nEmail: $email\nSubjek: $subject\nPesan: $message";
+if (!empty($email) && !empty($message)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $receiver = "sharif.ridho@gmail.com"; //isi alamat email penerima disini
+        $subject = "Dari: $name <$email>";
+        $body = "Nama: $name\nEmail: $email\nPesan:\n$message\n\nSalam,\n$name";
+        $sender = "Dari: $email";
 
-    // Mengirim email
-    $headers = 'From: ' . $email . "\r\n" .
-        'Reply-To: ' . $email . "\r\n" .
-        'X-Mailer: PHP/' . phpversion();
-    mail($to, $subject, $message, $headers);
-
-    // Mengarahkan pengguna ke halaman terima kasih
-    header('Location: index.html');
-    exit();
+        if (mail($receiver, $subject, $body, $sender)) {
+            echo "Pesan Anda telah terkirim.";
+            echo "<meta http-equiv='refresh' content='5; url=index.php' />";
+        } else {
+            echo "Maaf, gagal mengirimkan pesan Anda!";
+        }
+    } else {
+        echo "Masukkan alamat email yang valid!";
+    }
+} else {
+    echo "Alamat email dan pesan diperlukan!";
 }

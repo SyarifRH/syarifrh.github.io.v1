@@ -179,6 +179,12 @@ section {
   border-color: var(--main-color);
 }
 
+.home .profession {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .home .profession-container {
   position: absolute;
   top: 50%;
@@ -188,7 +194,7 @@ section {
   height: 768px;
   overflow: hidden;
   pointer-events: none;
-  z-index: -1;
+  /* z-index: -1; */
 }
 
 .home .profession-container .profession-box {
@@ -701,7 +707,7 @@ span {
   .home .profession-box .profession {
     padding: 0 13px;
     left: auto;
-    transform-orign: 0;
+    transform-origin: 0;
   }
 
   .home .profession-box .profession:nth-child(1) {
